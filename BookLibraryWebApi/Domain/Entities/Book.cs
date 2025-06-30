@@ -9,8 +9,11 @@ namespace BookLibraryWebApi.Domain.Entities
 
         [Required]
         public string Title { get; set; }
-        [Required]
+        //[Required]
         public string Description { get; set; }
+        public string Author { get; set; }
+        public string Genre { get; set; }
+
 
 
     }
