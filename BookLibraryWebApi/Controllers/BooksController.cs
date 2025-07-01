@@ -80,10 +80,18 @@ namespace BookLibraryWebApi.Controllers
             }
             return Ok(deletedBook);
         }
-        [HttpGet]
-        public async Task<IActionResult> FilterBooks([FromRoute] string? title, [FromRoute] string? author, [FromRoute] string? genre)
+        [HttpGet("filter")]
+        
+        public async Task<IActionResult> FilterBooks([FromQuery] string? title, [FromQuery] string? author, [FromQuery] string? genre)
         {
             var books = await _bookRepository.GetFilteredBooksAsync(title, author, genre);
+            return Ok(books);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchBookAsync(string keyword)
+        {
+            var books = await _bookRepository.SearchBookAsync(keyword);
             return Ok(books);
         }
     }

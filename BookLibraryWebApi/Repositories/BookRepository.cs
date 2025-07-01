@@ -51,12 +51,12 @@ namespace BookLibraryWebApi.Repositories
             var query = _dataContext.Books.AsQueryable();
 
             if (!String.IsNullOrEmpty(title))
-                query = query.Where(a => a.Title.Contains(title));
+                query = query.Where(a => a.Title.ToLower().Equals(title.ToLower()));
             if (!String.IsNullOrEmpty(author))
-                query = query.Where(a=> a.Author.Contains(author));
+                query = query.Where(a=> a.Author.ToLower().Equals(author.ToLower()));
             if (!String.IsNullOrEmpty(genre))
-                query = query.Where(a=>a.Genre.Contains(genre));
-            return query.ToList();
+                query = query.Where(a=>a.Genre.ToLower().Equals(genre.ToLower()));
+            return await query.ToListAsync();
         }
 
         public async Task<List<Book>> GetAllBooksAsync()
@@ -78,6 +78,20 @@ namespace BookLibraryWebApi.Repositories
             _dataContext.Entry(existingBook).CurrentValues.SetValues(updatedBook);
             await _dataContext.SaveChangesAsync();
             return existingBook;
+        }
+
+        public async Task<List<Book>> SearchBookAsync(string keyword)
+        {
+            if (String.IsNullOrEmpty(keyword))
+                return new List<Book>();
+            keyword = keyword.ToLower();
+            return await _dataContext.Books
+            .Where(b => b.Title.Contains(keyword) ||
+                        b.Description.ToLower().Contains(keyword) ||
+                       (b.Author != null && b.Author.ToLower().Contains(keyword)) ||
+                       (b.Genre != null && b.Genre.ToLower().Contains(keyword))
+                       )
+                       .ToListAsync();            
         }
     }
 }

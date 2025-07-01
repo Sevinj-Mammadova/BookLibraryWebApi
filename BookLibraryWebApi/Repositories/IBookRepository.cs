@@ -13,5 +13,6 @@ namespace BookLibraryWebApi.Repositories
         Task<Book> DeleteBookByIdAsync(int id);
         Task<Book> DeleteBookByTitleAsync(string title);
         Task<List<Book>> GetFilteredBooksAsync(string? title, string? author, string? genre);
+        Task<List<Book>> SearchBookAsync(string keyword);
     }
 }
