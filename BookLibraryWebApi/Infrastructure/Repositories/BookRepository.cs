@@ -1,12 +1,11 @@
-﻿using BookLibraryWebApi.Data;
-using BookLibraryWebApi.Domain.Entities;
-using BookLibraryWebApi.DTOs;
+﻿using BookLibraryWebApi.Domain.Entities;
+using BookLibraryWebApi.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace BookLibraryWebApi.Repositories
+namespace BookLibraryWebApi.Infrastructure.Repositories
 {
     public class BookRepository : IBookRepository
     {
@@ -50,18 +49,21 @@ namespace BookLibraryWebApi.Repositories
         {
             var query = _dataContext.Books.AsQueryable();
 
-            if (!String.IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(title))
                 query = query.Where(a => a.Title.ToLower().Equals(title.ToLower()));
-            if (!String.IsNullOrEmpty(author))
+            if (!string.IsNullOrEmpty(author))
                 query = query.Where(a=> a.Author.ToLower().Equals(author.ToLower()));
-            if (!String.IsNullOrEmpty(genre))
+            if (!string.IsNullOrEmpty(genre))
                 query = query.Where(a=>a.Genre.ToLower().Equals(genre.ToLower()));
             return await query.ToListAsync();
         }
 
-        public async Task<List<Book>> GetAllBooksAsync()
+        public async Task<List<Book>> GetAllBooksPaginatedAsync(int pageNumber,int pageSize)
         {
-            return await _dataContext.Books.ToListAsync();
+            return await _dataContext.Books
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<Book?> GetBookByIdAsync(int id)
@@ -82,14 +84,14 @@ namespace BookLibraryWebApi.Repositories
 
         public async Task<List<Book>> SearchBookAsync(string keyword)
         {
-            if (String.IsNullOrEmpty(keyword))
+            if (string.IsNullOrEmpty(keyword))
                 return new List<Book>();
             keyword = keyword.ToLower();
             return await _dataContext.Books
             .Where(b => b.Title.Contains(keyword) ||
                         b.Description.ToLower().Contains(keyword) ||
-                       (b.Author != null && b.Author.ToLower().Contains(keyword)) ||
-                       (b.Genre != null && b.Genre.ToLower().Contains(keyword))
+                       b.Author != null && b.Author.ToLower().Contains(keyword) ||
+                       b.Genre != null && b.Genre.ToLower().Contains(keyword)
                        )
                        .ToListAsync();            
         }

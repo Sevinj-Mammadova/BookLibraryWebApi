@@ -2,7 +2,7 @@
 using BookLibraryWebApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookLibraryWebApi.Data
+namespace BookLibraryWebApi.Infrastructure.Data
 {
     public class DataContext : DbContext
     {
@@ -10,5 +10,6 @@ namespace BookLibraryWebApi.Data
         {
         }
         public DbSet<Book> Books { get; set; }
+        public DbSet<BorrowRecord> BorrowRecords { get; set; }
     }
 }

@@ -1,13 +1,12 @@
 ﻿using BookLibraryWebApi.Domain.Entities;
-using BookLibraryWebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookLibraryWebApi.Repositories
+namespace BookLibraryWebApi.Infrastructure.Repositories
 {
     public interface IBookRepository
     {
         Task<Book?> GetBookByIdAsync(int id);
-        Task<List<Book>> GetAllBooksAsync();
+        Task<List<Book>> GetAllBooksPaginatedAsync(int pageNumber, int pageSize);
         Task<Book> AddBookAsync(Book createdBook);
         Task<Book> UpdateBookAsync(string title, Book updatedBookook);
         Task<Book> DeleteBookByIdAsync(int id);

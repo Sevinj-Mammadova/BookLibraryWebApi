@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using BookLibraryWebApi.Application.DTOs;
 using BookLibraryWebApi.Domain.Entities;
-using BookLibraryWebApi.DTOs;
 
-namespace BookLibraryWebApi.Mappings
+namespace BookLibraryWebApi.Application.Mappings
 {
     public class MappingProfile : Profile
     {

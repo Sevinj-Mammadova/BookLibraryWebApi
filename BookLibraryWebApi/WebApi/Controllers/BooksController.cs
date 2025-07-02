@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
-using BookLibraryWebApi.Data;
+using BookLibraryWebApi.Application.DTOs;
 using BookLibraryWebApi.Domain.Entities;
-using BookLibraryWebApi.DTOs;
-using BookLibraryWebApi.Repositories;
+using BookLibraryWebApi.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace BookLibraryWebApi.Controllers
+namespace BookLibraryWebApi.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -35,9 +34,9 @@ namespace BookLibraryWebApi.Controllers
             return Ok(book);
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllBooksAsync()
+        public async Task<IActionResult> GetAllBooksAsync([FromQuery] PaginationDto pagination)
         {
-            var books = await _bookRepository.GetAllBooksAsync();
+            var books = await _bookRepository.GetAllBooksPaginatedAsync(pagination.PageNumber, pagination.PageSize);
             return Ok(books);
         }
         [HttpPost]
@@ -82,7 +81,7 @@ namespace BookLibraryWebApi.Controllers
         }
         [HttpGet("filter")]
         
-        public async Task<IActionResult> FilterBooks([FromQuery] string? title, [FromQuery] string? author, [FromQuery] string? genre)
+        public async Task<IActionResult> FilterBooks(string? title,string? author,string? genre)
         {
             var books = await _bookRepository.GetFilteredBooksAsync(title, author, genre);
             return Ok(books);
