@@ -95,5 +95,10 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
                        )
                        .ToListAsync();            
         }
+        public async Task UpdateBookAsync(Book book)
+        {
+            _dataContext.Books.Update(book);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }
