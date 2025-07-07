@@ -1,4 +1,5 @@
 ﻿using BookLibraryWebApi.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookLibraryWebApi.Infrastructure.Repositories
 {
@@ -7,6 +8,7 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
         Task AddBorrowRecordAsync(BorrowRecord borrowRecord);
         Task<BorrowRecord?> GetActiveBorrowRecordAsync(int bookId, int userId);
         Task UpdateBorrowRecordAsync(BorrowRecord borrowRecord);
+        Task<List<BorrowRecord>> GetAllBorrowRecords();
 
     }
 }

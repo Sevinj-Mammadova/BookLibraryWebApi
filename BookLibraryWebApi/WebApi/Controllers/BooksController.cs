@@ -31,13 +31,15 @@ namespace BookLibraryWebApi.WebApi.Controllers
             {
                 return NotFound();
             }
-            return Ok(book);
+            var bookDto = _mapper.Map<BookDto>(book);        
+            return Ok(bookDto);
         }
         [HttpGet]
         public async Task<IActionResult> GetAllBooksAsync([FromQuery] PaginationDto pagination)
         {
             var books = await _bookRepository.GetAllBooksPaginatedAsync(pagination.PageNumber, pagination.PageSize);
-            return Ok(books);
+            var booksDto = _mapper.Map<List<BookDto>>(books);
+            return Ok(booksDto);
         }
         [HttpPost]
         public async Task<IActionResult> AddBookAsync([FromBody] CreateBookDto createBookDto)
@@ -84,14 +86,16 @@ namespace BookLibraryWebApi.WebApi.Controllers
         public async Task<IActionResult> FilterBooks(string? title,string? author,string? genre)
         {
             var books = await _bookRepository.GetFilteredBooksAsync(title, author, genre);
-            return Ok(books);
+            var booksDto = _mapper.Map<List<BookDto>>(books);
+            return Ok(booksDto);
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchBookAsync(string keyword)
         {
             var books = await _bookRepository.SearchBookAsync(keyword);
-            return Ok(books);
+            var booksDto = _mapper.Map<List<BookDto>>(books);
+            return Ok(booksDto);
         }
     }
 }

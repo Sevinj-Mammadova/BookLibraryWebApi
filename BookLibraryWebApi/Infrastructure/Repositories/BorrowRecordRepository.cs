@@ -29,5 +29,9 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
             _dataContext.BorrowRecords.Update(borrowRecord);
             await _dataContext.SaveChangesAsync();
         }
+        public async Task<List<BorrowRecord>> GetAllBorrowRecords()
+        {
+            return await _dataContext.BorrowRecords.ToListAsync();
+        }
     }
 }

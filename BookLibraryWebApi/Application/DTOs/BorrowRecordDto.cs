@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookLibraryWebApi.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace BookLibraryWebApi.Domain.Entities
+namespace BookLibraryWebApi.Application.DTOs
 {
-    public class BorrowRecord
+    public class BorrowRecordDto
     {
         [Key]
         public int Id { get; set; }
@@ -14,5 +15,6 @@ namespace BookLibraryWebApi.Domain.Entities
         public DateTime DueDate { get; set; } = DateTime.Now.AddDays(14);
         public DateTime? ReturnDate { get; set; }
         public bool IsReturned => ReturnDate.HasValue;
+
     }
 }
