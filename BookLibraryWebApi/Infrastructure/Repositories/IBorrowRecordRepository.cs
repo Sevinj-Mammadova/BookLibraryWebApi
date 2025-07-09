@@ -8,7 +8,7 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
         Task AddBorrowRecordAsync(BorrowRecord borrowRecord);
         Task<BorrowRecord?> GetActiveBorrowRecordAsync(int bookId, int userId);
         Task UpdateBorrowRecordAsync(BorrowRecord borrowRecord);
-        Task<List<BorrowRecord>> GetAllBorrowRecords();
+        Task<List<BorrowRecord>> GetAllBorrowRecordsAsync();
 
     }
 }

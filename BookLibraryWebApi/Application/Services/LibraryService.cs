@@ -19,23 +19,23 @@ namespace BookLibraryWebApi.Application.Services
             _mapper = mapper;
             _borrowRecordRepository = borrowRecordRepository;
         }
-        public async Task<bool> BorrowBookAsync(int bookId, int userId)
+        public async Task<BorrowRecord?> BorrowBookAsync(int bookId, int userId)
         {
             var book = await _bookRepository.GetBookByIdAsync(bookId);
             if (book == null || !book.IsAvailable)
-                return false;
+                return null;
             book.IsAvailable = false;
             await _bookRepository.UpdateBookAsync(book);
             var newBorrow = new BorrowRecord
             {
                 BookId = bookId,
                 UserId = userId,
-                BorrowDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(14),
+                BorrowDate = DateTime.UtcNow,
+                DueDate = DateTime.UtcNow.AddDays(14),
                 ReturnDate = null
             };
             await _borrowRecordRepository.AddBorrowRecordAsync(newBorrow);
-            return true;
+            return newBorrow;
         }
 
         public async Task<bool> ReturnBookAsync(int bookId, int userId)
@@ -52,6 +52,5 @@ namespace BookLibraryWebApi.Application.Services
             await _borrowRecordRepository.UpdateBorrowRecordAsync(returnedBook);
             return true;
         }
-
     }
 }

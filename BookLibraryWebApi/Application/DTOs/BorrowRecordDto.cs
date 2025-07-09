@@ -9,10 +9,10 @@ namespace BookLibraryWebApi.Application.DTOs
         public int Id { get; set; }
         [Required]
         public int BookId { get; set; }
-        public Book Book { get; set; }
+        //public Book Book { get; set; }
         public int UserId { get; set; }
-        public DateTime BorrowDate { get; set; } = DateTime.Now;
-        public DateTime DueDate { get; set; } = DateTime.Now.AddDays(14);
+        public DateTime BorrowDate { get; set; }
+        public DateTime DueDate { get; set; } 
         public DateTime? ReturnDate { get; set; }
         public bool IsReturned => ReturnDate.HasValue;
 

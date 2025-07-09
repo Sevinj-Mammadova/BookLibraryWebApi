@@ -1,7 +1,10 @@
-﻿namespace BookLibraryWebApi.Application.Interfaces
+﻿using BookLibraryWebApi.Domain.Entities;
+
+namespace BookLibraryWebApi.Application.Interfaces
 {
     public interface ILibraryService
     {
-        Task<bool> BorrowBookAsync(int bookId, int userId);
+        Task<BorrowRecord> BorrowBookAsync(int bookId, int userId);
+        Task<bool> ReturnBookAsync(int bookId, int userId);
     }
 }

@@ -18,6 +18,8 @@ namespace BookLibraryWebApi.Application.Mappings
             CreateMap<BorrowRecord, BorrowRecordDto>().ReverseMap();
             CreateMap<Book, BookDto>();
             CreateMap<Book, BookDto>().ReverseMap();
+            CreateMap<BorrowRecord, CreateBorrowRecordDto>();
+            CreateMap<BorrowRecord, CreateBorrowRecordDto>().ReverseMap();
 
         }
     }

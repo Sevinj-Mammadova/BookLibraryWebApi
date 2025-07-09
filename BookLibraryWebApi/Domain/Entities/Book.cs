@@ -13,7 +13,7 @@ namespace BookLibraryWebApi.Domain.Entities
         public string Description { get; set; }
         public string? Author { get; set; }
         public string? Genre { get; set; }
-        public bool IsAvailable { get; set; }
+        public bool IsAvailable { get; set; } = true;
 
 
     }

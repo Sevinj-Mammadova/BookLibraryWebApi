@@ -10,8 +10,8 @@ namespace BookLibraryWebApi.Domain.Entities
         public int BookId { get; set; }
         public Book Book { get; set; }
         public int UserId { get; set; }
-        public DateTime BorrowDate { get; set; } = DateTime.Now;
-        public DateTime DueDate { get; set; } = DateTime.Now.AddDays(14);
+        public DateTime BorrowDate { get; set; } = DateTime.UtcNow.Date;
+        public DateTime DueDate { get; set; } = DateTime.UtcNow.Date.AddDays(14);
         public DateTime? ReturnDate { get; set; }
         public bool IsReturned => ReturnDate.HasValue;
     }

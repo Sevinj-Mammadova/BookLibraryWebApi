@@ -18,10 +18,13 @@ namespace BookLibraryWebApi.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<BorrowRecord>()
                 .Property(b => b.BorrowDate)
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("CAST(GETDATE() AS DATE)");
             modelBuilder.Entity<BorrowRecord>()
                 .Property(b => b.DueDate)
-                .HasDefaultValueSql("DATEADD(DAY, 14, GETDATE())");
+                .HasDefaultValueSql("DATEADD(DAY, 14, CAST(GETDATE() AS DATE))");
+            modelBuilder.Entity<Book>()
+                .Property(b => b.IsAvailable)
+                .HasDefaultValue(true);
         }
     }
     
