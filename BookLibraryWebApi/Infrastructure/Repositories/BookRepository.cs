@@ -23,7 +23,7 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
             return createdBook;
         }
 
-        public async Task<Book> DeleteBookByIdAsync(int id)
+        public async Task<Book?> DeleteBookByIdAsync(int id)
         {
             var deletedBook = await _dataContext.Books.FirstOrDefaultAsync(a => a.Id == id);
             if (deletedBook != null)
@@ -34,7 +34,7 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
             return deletedBook;
         }
 
-        public async Task<Book> DeleteBookByTitleAsync(string title)
+        public async Task<Book?> DeleteBookByTitleAsync(string title)
         {
             var deletedBook = await _dataContext.Books.FirstOrDefaultAsync(a => a.Title == title);
             if (deletedBook != null)
@@ -52,9 +52,9 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(title))
                 query = query.Where(a => a.Title.ToLower().Equals(title.ToLower()));
             if (!string.IsNullOrEmpty(author))
-                query = query.Where(a=> a.Author.ToLower().Equals(author.ToLower()));
+                query = query.Where(a=> a.Author != null && a.Author.ToLower().Equals(author.ToLower()));
             if (!string.IsNullOrEmpty(genre))
-                query = query.Where(a=>a.Genre.ToLower().Equals(genre.ToLower()));
+                query = query.Where(a=> a.Genre != null && a.Genre.ToLower().Equals(genre.ToLower()));
             return await query.ToListAsync();
         }
 
@@ -71,7 +71,7 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
              return await _dataContext.Books.FindAsync(id);          
         }
 
-        public async Task<Book> UpdateBookAsync(string title, Book updatedBook)
+        public async Task<Book?> UpdateBookAsync(string title, Book updatedBook)
         {
             var existingBook = await _dataContext.Books.FirstOrDefaultAsync(a => a.Title == title);
             if (existingBook == null)
@@ -89,7 +89,7 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
             keyword = keyword.ToLower();
             return await _dataContext.Books
             .Where(b => b.Title.Contains(keyword) ||
-                        b.Description.ToLower().Contains(keyword) ||
+                        b.Description != null && b.Description.ToLower().Contains(keyword) ||
                        b.Author != null && b.Author.ToLower().Contains(keyword) ||
                        b.Genre != null && b.Genre.ToLower().Contains(keyword)
                        )

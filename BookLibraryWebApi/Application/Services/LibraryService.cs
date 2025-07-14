@@ -48,9 +48,10 @@ namespace BookLibraryWebApi.Application.Services
             var returnedBook = await _borrowRecordRepository.GetActiveBorrowRecordAsync(bookId, userId);
             if(returnedBook == null)
                 return false;
-            returnedBook.ReturnDate = DateTime.Now;
+            returnedBook.ReturnDate = DateTime.Now.ToLocalTime();
             await _borrowRecordRepository.UpdateBorrowRecordAsync(returnedBook);
             return true;
         }
+
     }
 }

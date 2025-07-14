@@ -49,10 +49,24 @@ namespace BookLibraryWebApi.WebApi.Controllers
             return Ok(createdBorrowRecordDto);
         }
         [HttpPatch("return-borrowed-book")]
-        public async Task<IActionResult> ReturnBorrowedBook(int bookId, int userId)
+        public async Task<IActionResult> ReturnBorrowedBook([FromBody] ReturnBookRequest returnBookRequest) 
         {
-            
-            return null;
+            var success = await _libraryService.ReturnBookAsync(returnBookRequest.BookId, returnBookRequest.UserId);
+            if(success == false)
+            {
+                return BadRequest("Unable to return the book.");
+            }
+            return Ok("Returned successfully.");
+        }
+        [HttpGet("user-history")]
+        public async Task<IActionResult> GetUserHistory(int userId)
+        {
+            var borrowRecords = await _borrowRecordRepository.GetBorrowRecordsByUserIdAsync(userId);
+            if (!borrowRecords.Any())
+            {
+                return NotFound("No borrow history found for this user.");
+            }
+            return Ok(borrowRecords);
         }
     }
 }

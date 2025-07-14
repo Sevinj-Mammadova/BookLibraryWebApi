@@ -8,7 +8,7 @@ namespace BookLibraryWebApi.Domain.Entities
         public int Id { get; set; }
         [Required]
         public int BookId { get; set; }
-        public Book Book { get; set; }
+        public Book? Book { get; set; }
         public int UserId { get; set; }
         public DateTime BorrowDate { get; set; } = DateTime.UtcNow.Date;
         public DateTime DueDate { get; set; } = DateTime.UtcNow.Date.AddDays(14);

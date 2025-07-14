@@ -33,5 +33,9 @@ namespace BookLibraryWebApi.Infrastructure.Repositories
         {
             return await _dataContext.BorrowRecords.ToListAsync();
         }
+        public async Task<List<BorrowRecord>> GetBorrowRecordsByUserIdAsync(int userId)
+        {
+             return await _dataContext.BorrowRecords.Where(x => x.UserId == userId).ToListAsync();
+        }
     }
 }
